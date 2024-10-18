@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
@@ -7,7 +9,7 @@ final BrowserController browserController = Get.put(BrowserController());
 late final InAppWebViewController? webViewController;
 final TextEditingController searchController = TextEditingController();
 final SearchEngineController searchEngineController =
-Get.put(SearchEngineController());
+    Get.put(SearchEngineController());
 
 class CustomWebBrowser extends StatelessWidget {
   const CustomWebBrowser({super.key});
@@ -154,10 +156,32 @@ void _handleMenuOption(int value) {
 // }
 //text form field
 Widget _buildSearchBar() {
-  return Padding(
+  return
+  //   TextField(
+  //   onSubmitted: (value) {
+  //     final controller = webViewController;
+  //     if (controller != null) {
+  //       try {
+  //         controller.loadUrl(
+  //           urlRequest: URLRequest(
+  //             url: WebUri(homeGetController.linkUrl.value + "$value"),
+  //           ),
+  //         );
+  //       } catch (e) {
+  //         log("Not Working");
+  //       }
+  //       // await controller.goTo(historyItem: WebHistoryItem(originalUrl: WebUri("https://www.google.com/search?q=")));
+  //     }
+  //   },
+  //   decoration: InputDecoration(
+  //       label: Text("Search"),
+  //       border: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue))),
+  // ).paddingSymmetric(horizontal: 10);
+
+    Padding(
     padding: const EdgeInsets.all(8.0),
     child: TextField(
-      controller: searchController,
+      // controller: searchController,
       decoration: InputDecoration(
         hintText: 'Search or type URL...',
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
@@ -306,7 +330,8 @@ class BookmarksPage extends StatelessWidget {
               onTap: () {
                 webViewController?.loadUrl(
                   urlRequest: URLRequest(
-                    url: WebUri.uri(Uri.parse(browserController.bookmarks[index])),
+                    url: WebUri.uri(
+                        Uri.parse(browserController.bookmarks[index])),
                   ),
                 );
                 Get.back(); // Go back to the home page after selection
@@ -337,11 +362,15 @@ class HistoryPage extends StatelessWidget {
           itemCount: browserController.history.length,
           itemBuilder: (context, index) {
             return ListTile(
-              title: Text(browserController.history[index]),
+              title: Text(
+                browserController.history[index],
+                maxLines: 1,
+              ),
               onTap: () {
                 webViewController?.loadUrl(
                   urlRequest: URLRequest(
-                    url: WebUri.uri(Uri.parse(browserController.history[index])),
+                    url:
+                        WebUri.uri(Uri.parse(browserController.history[index])),
                   ),
                 );
                 Get.back(); // Go back to the home page after selection
